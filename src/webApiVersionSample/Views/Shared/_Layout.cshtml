@@ -1,0 +1,23 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aurelia Starter</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    @RenderSection("styles", required: false)
+</head>
+<body aurelia-app="scripts/app/main">
+    <div class="body-content" style="margin-left: 100px; margin-right: 100px;">
+        @RenderBody()
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    <script src="~/jspm_packages/system.js"></script>
+    <script src="~/config.js"></script>
+    <script>System.import("aurelia-bootstrapper");</script>
+    @RenderSection("scripts", false)
+</body>
+</html>

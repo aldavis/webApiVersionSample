@@ -1,0 +1,44 @@
+﻿<template>
+    <h1>Products Page</h1>
+    
+    <h2>Populated From Version 1</h2>
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <td>Id</td>
+                <td>Name</td>
+            </tr>
+            </thead>
+            <tbody>
+            <tr repeat.for="product of products">
+                <td>${product.Id}</td>
+                <td>${product.Name}</td>
+            </tr>
+            </tbody>
+
+        </table>
+    </div>
+    
+    <h2>Populated From Version 2</h2>
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <td>Id</td>
+                    <td>Name</td>
+                    <td>Price</td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr repeat.for="product of products2">
+                    <td>${product.Id}</td>
+                    <td>${product.Name}</td>
+                    <td>${product.Price}</td>
+                </tr>
+            </tbody>
+
+        </table>
+    </div>
+
+</template>

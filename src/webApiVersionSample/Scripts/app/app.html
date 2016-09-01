@@ -1,0 +1,32 @@
+﻿<template>
+    
+    <header>
+        <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-main-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+            </div>
+            <div class="navbar-collapse collapse" id="navbar">
+                <ul class="nav navbar-nav">
+                    <li repeat.for="row of router.navigation">
+                        <a aria-expanded="false" role="button" href.bind="row.href">
+                            <i class="fa ${row.settings}"></i>
+                            <span>${row.title}</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <div class="body-content">
+        <router-view></router-view>
+    </div>
+
+    <footer class="footer">
+    </footer>
+</template>
