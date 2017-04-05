@@ -19,56 +19,55 @@ namespace webApiVersionSample.Attributes
 
         public int AllowedVersion { get; }
 
-        public bool Match(HttpRequestMessage request, IHttpRoute route,string parameterName, IDictionary<string, object> values, HttpRouteDirection routeDirection)
+        public bool Match(HttpRequestMessage request, IHttpRoute route, string parameterName, IDictionary<string, object> values, HttpRouteDirection routeDirection)
         {
             if (routeDirection != HttpRouteDirection.UriResolution) return true;
 
-            var version = GetVersionFromCustomRequestHeader(request) ?? GetVersionFromCustomContentType(request);
+            var version = GetVersionHeader(request) ?? GetVersionFromCustomContentType(request);
 
             return (version ?? DefaultVersion) == AllowedVersion;
         }
 
         private int? GetVersionFromCustomContentType(HttpRequestMessage request)
         {
-            string versionAsString = null;
-
             var mediaTypes = request.Headers.Accept.Select(h => h.MediaType);
-            string matchingMediaType = null;
 
-            var regEx = new Regex(@"application\/vnd\.versionSampleApi\.v([\d]+)\+json");
+            var regEx = new Regex(@"application\/vnd\.catalogApi\.v([\d]+)\+json");
 
-            foreach (var mediaType in mediaTypes)
-                if (regEx.IsMatch(mediaType))
-                {
-                    matchingMediaType = mediaType;
-                    break;
-                }
+            string matchingMediaType = mediaTypes.FirstOrDefault(mediaType => regEx.IsMatch(mediaType));
 
             if (matchingMediaType == null)
                 return null;
 
             var m = regEx.Match(matchingMediaType);
-            versionAsString = m.Groups[1].Value;
+            var versionAsString = m.Groups[1].Value;
 
             int version;
-            if ((versionAsString != null) && int.TryParse(versionAsString, out version))
+            if (int.TryParse(versionAsString, out version))
                 return version;
 
             return null;
         }
 
 
-        private int? GetVersionFromCustomRequestHeader(HttpRequestMessage request)
+        private int? GetVersionHeader(HttpRequestMessage request)
         {
-            string versionAsString;
+            var versionAsString = string.Empty;
             IEnumerable<string> headerValues;
-            if (request.Headers.TryGetValues(VersionHeaderName, out headerValues) && (headerValues.Count() == 1))
+
+            if (request.Headers.TryGetValues("api-version", out headerValues) && headerValues.Count() == 1)
                 versionAsString = headerValues.First();
             else
-                return null;
+            {
+                var accept = request.Headers.Accept.Where(a => a.Parameters.Count(p => p.Name == "version") > 0).ToList();
+
+                if (accept.Any())
+                    versionAsString = accept.First().Parameters.Single(s => s.Name == "version").Value;
+            }
 
             int version;
-            if ((versionAsString != null) && int.TryParse(versionAsString, out version))
+
+            if (!string.IsNullOrEmpty(versionAsString) && int.TryParse(versionAsString, out version))
                 return version;
 
             return null;
