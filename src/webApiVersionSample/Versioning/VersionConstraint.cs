@@ -4,7 +4,7 @@ using System.Net.Http;
 using System.Text.RegularExpressions;
 using System.Web.Http.Routing;
 
-namespace webApiVersionSample.Attributes
+namespace webApiVersionSample.Versioning
 {
     public class VersionConstraint : IHttpRouteConstraint
     {
@@ -23,6 +23,11 @@ namespace webApiVersionSample.Attributes
         {
             if (routeDirection != HttpRouteDirection.UriResolution) return true;
 
+            if (VersionEnforcer.Versions[request.Method].ContainsKey(route.RouteTemplate))
+            {
+                return VersionEnforcer.Versions[request.Method][route.RouteTemplate] == AllowedVersion;
+            }
+
             var version = GetVersionHeader(request) ?? GetVersionFromCustomContentType(request);
 
             return (version ?? DefaultVersion) == AllowedVersion;
@@ -32,7 +37,7 @@ namespace webApiVersionSample.Attributes
         {
             var mediaTypes = request.Headers.Accept.Select(h => h.MediaType);
 
-            var regEx = new Regex(@"application\/vnd\.catalogApi\.v([\d]+)\+json");
+            var regEx = new Regex(@"application\/vnd\.sampleApp\.v([\d]+)\+json");
 
             string matchingMediaType = mediaTypes.FirstOrDefault(mediaType => regEx.IsMatch(mediaType));
 

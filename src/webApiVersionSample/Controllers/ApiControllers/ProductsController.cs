@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Web.Http;
-using webApiVersionSample.Attributes;
+using webApiVersionSample.Versioning;
 
 namespace webApiVersionSample.Controllers.ApiControllers
 {

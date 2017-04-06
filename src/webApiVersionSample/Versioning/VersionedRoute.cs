@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Web.Http.Routing;
 
-namespace webApiVersionSample.Attributes
+namespace webApiVersionSample.Versioning
 {
     public class VersionedRoute : RouteFactoryAttribute
     {

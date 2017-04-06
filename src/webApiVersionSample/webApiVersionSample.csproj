@@ -162,14 +162,15 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
-    <Compile Include="Attributes\VersionConstraint.cs" />
-    <Compile Include="Attributes\VersionedRoute.cs" />
+    <Compile Include="Versioning\VersionConstraint.cs" />
+    <Compile Include="Versioning\VersionedRoute.cs" />
     <Compile Include="Controllers\ApiControllers\ProductsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Versioning\VersionEnforcer.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="config.js" />
